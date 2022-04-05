@@ -7,3 +7,5 @@
 # g = "green" tile
 
 # the Oracle will suggest solutions
+
+# enter "end" in both fields to exit
