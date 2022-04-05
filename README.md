@@ -9,3 +9,5 @@
 # the Oracle will suggest solutions
 
 # enter "end" in both fields to exit
+
+# test the Oracle at https://octokatherine.github.io/word-master/
