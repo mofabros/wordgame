@@ -6,7 +6,7 @@ my_dictionary = open('common.txt')
 my_list = []
 for lines in my_dictionary:
     for words in lines.split():
-        my_list.append(words)
+        my_list.append(words.lower())
 
 
 def filter_incorrect(guess, correctness, possibilities):
@@ -50,7 +50,7 @@ def filter_position(guess, correctness, possibilities):
 
 def weighting(possibilities):
     new_array = []
-    mydict = {'a':2, 'b':0, 'c':0, 'd':0, 'e':2, 'f':0, 'g':0, 'h':0, 'i':2, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':2, 'p':0, 'q':0, 'r':0, 's':0, 't':0, 'u':2, 'v':0, 'w':0, 'x':0, 'y':1, 'z':0}
+    mydict = {'a':2, 'b':0, 'c':0, 'd':0, 'e':2, 'f':0, 'g':0, 'h':0, 'i':2, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':2, 'p':0, 'q':0, 'r':0, 's':0, 't':0, 'u':2, 'v':0, 'w':0, 'x':0, 'y':1, 'z':0, '0':0}
     for words in possibilities:
         x = 0
         for letter in list(words):
@@ -112,24 +112,19 @@ while guess!=['e','n','d']:
     print(guess)
     print(correctness)
 
-    skip_filter_incorrect = False
-    x=0
     save_double_letters = []
-    for letters in guess:
+    for x in range (0,len(guess)):
         #check double letters
-        if guess.count(letters) > 1:
-            save_double_letters.append(letters)
-            save_double_letters.append(x) #save position of double letters
-        x += 1
+        if guess.count(guess[x]) > 1:
+            if correctness[x] == 'incorrect':
+                save_double_letters.append(x)
+    
     if save_double_letters:
-        for x in range(0, len(save_double_letters)-2, 2):
-            if save_double_letters[x] in save_double_letters[x+2:]:
-                if save_double_letters[x+1] != save_double_letters[x+3]:
-                    if correctness[x+1] == 'incorrect' or correctness[x+3] == 'incorrect':
-                        skip_filter_incorrect = True
-
-    if not skip_filter_incorrect:
-        possibilities = filter_incorrect(guess, correctness, possibilities)
+        for indexnum in save_double_letters:
+            guess[indexnum]='0'
+            correctness[indexnum]='null'
+    
+    possibilities = filter_incorrect(guess, correctness, possibilities)
     possibilities = filter_position(guess, correctness, possibilities)
     possibilities = filter_correct(guess, correctness, possibilities)
     possibilities = weighting(possibilities)
